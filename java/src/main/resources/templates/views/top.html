@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::title},~{::body/content()})}">
+
+<head>
+	<title>連絡帳管理サイト</title>
+</head>
+
+<body>
+	<h3>登録されたアドレス一覧</h3>
+
+	<div th:if="${addressList!=null and !addressList.empty}">
+		データあり
+	</div>
+	<div th:unless="${addressList!=null and !addressList.empty}">
+		<div class="alert alert-danger" role="alert">
+			データなし
+		</div>
+	</div>
+</body>
+
+</html>

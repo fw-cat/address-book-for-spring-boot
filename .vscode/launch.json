@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-AddressBookApplication<addressBook>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "jp.ac.ohara.AddressBook.AddressBookApplication",
+      "projectName": "addressBook",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::title},~{::body/content()})}">
+<head>
+    <title>連絡帳管理サイト</title>
+</head>
+<body>
+    <section>
+        <h3 th:text="|アドレス${method}画面|"></h3>
+    </section>
+</body>
+</html>
