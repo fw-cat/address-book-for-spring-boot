@@ -11,6 +11,11 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import jp.ac.ohara.AddressBook.define.ErrorMessage;
 import lombok.Data;
 
 @Data
@@ -21,12 +26,22 @@ public class AddressBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+	@NotBlank(message = ErrorMessage.NOT_NULL)
     private String lastName;
+
+	@NotBlank(message = ErrorMessage.NOT_NULL)
     private String firstName;
 
+	@NotBlank(message = ErrorMessage.NOT_NULL)
+	@Email
     private String mailAddress;
+
+	@NotBlank(message = ErrorMessage.NOT_NULL)
+	@Size(min=10, max=13)
+	@Pattern(regexp = "0\\d{1,4}-\\d{1,4}-\\d{4}", message = ErrorMessage.PATTERN_PHONE)
     private String phoneNumber;
 
+	@Pattern(regexp = "0\\d{3}-\\d{4}", message = ErrorMessage.PATTERN_ZIP_CODE)
     private String zipCode;
     private String prefecture;
     private String city;
