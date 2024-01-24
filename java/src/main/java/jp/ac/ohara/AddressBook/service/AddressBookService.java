@@ -28,6 +28,7 @@ public class AddressBookService {
 
 	/**
 	 * 詳細データの取得
+	 * @param @NonNull Long index
 	 * @return  AddressBook
 	 */
 	public AddressBook get(@NonNull Long index) {
@@ -41,5 +42,13 @@ public class AddressBookService {
 	 */
 	public void save(@NonNull AddressBook addressBook) {
 		this.repository.save(addressBook);
+	}
+
+	/**
+	 * アドレス帳データの削除
+	 * @param @NonNull Long index
+	 */
+	public void delete(@NonNull Long index) {
+		this.repository.deleteById(index);
 	}
 }

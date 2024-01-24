@@ -2,6 +2,9 @@ package jp.ac.ohara.AddressBook.model;
 
 import java.util.Date;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,6 +24,8 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="address_books")
+@SQLDelete(sql = "UPDATE address_books SET deleted_at = NOW() WHERE id=?")
+@SQLRestriction(value = "deleted_at IS NULL")
 public class AddressBook {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

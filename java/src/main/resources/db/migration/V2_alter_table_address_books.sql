@@ -18,3 +18,8 @@ CHANGE `address` `address` varchar(128) COLLATE 'utf8mb4_general_ci' NULL COMMEN
 CHANGE `building` `building` varchar(512) COLLATE 'utf8mb4_general_ci' NULL COMMENT 'ビル',
 
 COLLATE 'utf8mb4_general_ci';
+
+ALTER TABLE `address_books`
+ADD `deleted_at` datetime NULL DEFAULT NULL COMMENT '削除日時' AFTER `building`,
+CHANGE `updated_at` `updated_at` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日時' AFTER `deleted_at`,
+CHANGE `created_at` `created_at` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '作成日時' AFTER `updated_at`;
