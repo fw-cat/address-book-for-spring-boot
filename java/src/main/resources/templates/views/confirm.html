@@ -42,6 +42,25 @@
 				</div>
 			</div>
 
+			<div class="row mt-3 align-self-center align-items-center">
+				<label for="phoneNumber" class="col-4 col-form-label text-end">郵便番号</label>
+				<div class="col-4">
+					<strong th:text="*{zipCode}">郵便番号</strong>
+					<input type="hidden" th:field="*{zipCode}">
+				</div>
+			</div>
+
+			<div class="row mt-3 align-self-center align-items-center">
+				<label for="phoneNumber" class="col-4 col-form-label text-end">住所</label>
+				<div class="col-4">
+					<strong th:text="*{getAddressText()}">住所</strong>
+					<input type="hidden" th:field="*{prefecture}">
+					<input type="hidden" th:field="*{city}">
+					<input type="hidden" th:field="*{address}">
+					<input type="hidden" th:field="*{building}">
+				</div>
+			</div>
+
 			<div class="row mt-3">
 				<div class="offset-4 col-4">
 					<button class="btn btn-primary">登録</button>

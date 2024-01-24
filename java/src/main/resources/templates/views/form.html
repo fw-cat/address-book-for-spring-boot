@@ -9,7 +9,7 @@
 	<h3 th:text="|アドレス${method}画面|"></h3>
 
 	<article>
-		<form class="form py-4 needs-validation" method="post" th:action="@{/add/confirm}" th:object="${addressBook}">
+		<form class="form py-4 needs-validation h-adr" method="post" th:action="@{/add/confirm}" th:object="${addressBook}">
 			<div class="row">
 				<label for="lastName" class="col-4 col-form-label text-end">名前（姓）</label>
 				<div class="col-4">
@@ -52,12 +52,51 @@
 			</div>
 
 			<div class="row mt-3">
+				<label for="zipCode" class="col-4 col-form-label text-end">郵便番号</label>
+				<div class="col-3">
+					<span class="p-country-name d-none">Japan</span>
+					<input type="text" class="form-control p-postal-code" id="zipCode" name="zipCode" th:field="*{zipCode}"
+						th:classappend="${#fields.hasErrors('zipCode')} ? 'is-invalid' : 'is-valid'"  />
+					<div th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}"
+						class="invalid-feedback">errors!</div>
+				</div>
+			</div>
+			<div class="row mt-2">
+				<label class="col-4 col-form-label text-end">住所</label>
+				<div class="col-2">
+					<input type="text" class="form-control p-region" id="prefecture" name="prefecture" th:field="*{prefecture}"
+						th:classappend="${#fields.hasErrors('prefecture')} ? 'is-invalid' : 'is-valid'" readonly />
+					<div th:if="${#fields.hasErrors('prefecture')}" th:errors="*{prefecture}"
+						class="invalid-feedback">errors!</div>
+				</div>
+				<div class="col-2">
+					<input type="text" placeholder="市区町村" class="form-control p-locality" id="city" name="city" th:field="*{city}"
+						th:classappend="${#fields.hasErrors('city')} ? 'is-invalid' : 'is-valid'" readonly />
+					<div th:if="${#fields.hasErrors('city')}" th:errors="*{city}"
+						class="invalid-feedback">errors!</div>
+				</div>
+				<div class="col-4 offset-4">
+					<input type="text" placeholder="丁目・番地" class="form-control p-street-address" id="address" name="address" th:field="*{address}"
+						th:classappend="${#fields.hasErrors('address')} ? 'is-invalid' : 'is-valid'" />
+					<div th:if="${#fields.hasErrors('address')}" th:errors="*{address}"
+						class="invalid-feedback">errors!</div>
+				</div>
+				<div class="col-4 offset-4">
+					<input type="text" placeholder="建物名・号室" class="form-control p-extended-address" id="building" name="building" th:field="*{building}"
+						th:classappend="${#fields.hasErrors('building')} ? 'is-invalid' : 'is-valid'" />
+					<div th:if="${#fields.hasErrors('building')}" th:errors="*{building}"
+						class="invalid-feedback">errors!</div>
+				</div>
+			</div>
+
+			<div class="row mt-3">
 				<div class="offset-4 col-4">
 					<button class="btn btn-primary">確認</button>
 				</div>
 			</div>
 		</form>
 	</article>
+	<script src="https://yubinbango.github.io/yubinbango/yubinbango.js"></script>
 </body>
 
 </html>

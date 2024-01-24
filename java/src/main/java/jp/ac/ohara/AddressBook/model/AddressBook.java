@@ -41,7 +41,7 @@ public class AddressBook {
 	@Pattern(regexp = "0\\d{1,4}-?\\d{1,4}-?\\d{4}", message = ErrorMessage.PATTERN_PHONE)
     private String phoneNumber;
 
-	@Pattern(regexp = "0\\d{3}-?\\d{4}", message = ErrorMessage.PATTERN_ZIP_CODE)
+	@Pattern(regexp = "\\d{3}-?\\d{4}", message = ErrorMessage.PATTERN_ZIP_CODE)
     private String zipCode;
     private String prefecture;
     private String city;
