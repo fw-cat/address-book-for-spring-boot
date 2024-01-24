@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::title},~{::body/content()})}">
+
+<head>
+	<title>連絡帳管理サイト</title>
+</head>
+
+<body>
+	<h3 th:text="|アドレス${method}画面|"></h3>
+
+	<article>
+		<div th:if="${#strings.isEmpty(exception)}">
+			<div class="alert alert-success" role="alert">
+				登録完了しました。
+			</div>
+		</div>
+		<div th:unless="${#strings.isEmpty(exception)}">
+			<div class="alert alert-danger" role="alert" th:text="exception">
+				データなし
+			</div>
+		</div>
+	</article>
+</body>
+
+</html>

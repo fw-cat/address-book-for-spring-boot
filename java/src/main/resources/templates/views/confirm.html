@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::title},~{::body/content()})}">
+
+<head>
+	<title>連絡帳管理サイト</title>
+</head>
+
+<body>
+	<h3 th:text="|アドレス${method}画面|"></h3>
+
+	<article>
+		<form class="form py-4 needs-validation" method="post" th:action="@{/add/complate}" th:object="${addressBook}">
+			<div class="row align-self-center align-items-center">
+				<label for="lastName" class="col-4 col-form-label text-end">名前（姓）</label>
+				<div class="col-4">
+					<strong th:text="*{lastName}">名前（姓）</strong>
+					<input type="hidden" th:field="*{lastName}">
+				</div>
+			</div>
+
+			<div class="row mt-3 align-self-center align-items-center">
+				<label for="firstName" class="col-4 col-form-label text-end">名前（名）</label>
+				<div class="col-4">
+					<strong th:text="*{firstName}">名前（名）</strong>
+					<input type="hidden" th:field="*{firstName}">
+				</div>
+			</div>
+
+			<div class="row mt-3 align-self-center align-items-center">
+				<label for="mailAddress" class="col-4 col-form-label text-end">メールアドレス</label>
+				<div class="col-4">
+					<strong th:text="*{mailAddress}">メールアドレス</strong>
+					<input type="hidden" th:field="*{mailAddress}">
+				</div>
+			</div>
+
+			<div class="row mt-3 align-self-center align-items-center">
+				<label for="phoneNumber" class="col-4 col-form-label text-end">電話番号</label>
+				<div class="col-4">
+					<strong th:text="*{phoneNumber}">電話番号</strong>
+					<input type="hidden" th:field="*{phoneNumber}">
+				</div>
+			</div>
+
+			<div class="row mt-3">
+				<div class="offset-4 col-4">
+					<button class="btn btn-primary">登録</button>
+				</div>
+			</div>
+		</form>
+	</article>
+</body>
+
+</html>

@@ -24,4 +24,12 @@ public class AddressBookService {
 	    List<AddressBook> entityList = this.repository.findAll();
 	    return entityList;
 	}
+
+	/**
+	 * アドレス帳一覧の取得
+	 * @param AddressBook addressBook
+	 */
+	public void save(AddressBook addressBook) {
+		this.repository.save(addressBook);
+	}
 }

@@ -38,10 +38,10 @@ public class AddressBook {
 
 	@NotBlank(message = ErrorMessage.NOT_NULL)
 	@Size(min=10, max=13)
-	@Pattern(regexp = "0\\d{1,4}-\\d{1,4}-\\d{4}", message = ErrorMessage.PATTERN_PHONE)
+	@Pattern(regexp = "0\\d{1,4}-?\\d{1,4}-?\\d{4}", message = ErrorMessage.PATTERN_PHONE)
     private String phoneNumber;
 
-	@Pattern(regexp = "0\\d{3}-\\d{4}", message = ErrorMessage.PATTERN_ZIP_CODE)
+	@Pattern(regexp = "0\\d{3}-?\\d{4}", message = ErrorMessage.PATTERN_ZIP_CODE)
     private String zipCode;
     private String prefecture;
     private String city;
@@ -61,5 +61,23 @@ public class AddressBook {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = new Date();
+    }
+
+    /**
+     * 住所の文字列を返す
+     * @return 住所
+     */
+    public String getAddressText() {
+    	if (this.prefecture == null || this.prefecture.isEmpty() ||
+    		this.city == null || this.city.isEmpty() ||
+    		this.address == null || this.address.isEmpty()) {
+        	return "";
+    	}
+
+    	String addressText = this.prefecture + this.city + this.address;
+    	if (!this.building.isEmpty()) {
+    		addressText  += "　" + this.building;
+    	}
+    	return addressText;
     }
 }

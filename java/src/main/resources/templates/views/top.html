@@ -9,7 +9,26 @@
 	<h3>登録されたアドレス一覧</h3>
 
 	<div th:if="${addressList!=null and !addressList.empty}">
-		データあり
+		<table class="table table-striped">
+			<thead>
+				<th>#</th>
+				<th>名前</th>
+				<th>メールアドレス</th>
+				<th>電話番号</th>
+				<th>郵便番号</th>
+				<th>住所</th>
+			</thead>
+			<tbody>
+				<tr th:each="addressBook, stat : ${addressList}" th:object="${addressBook}">
+					<td th:text="${stat.count}"></td>
+					<td th:text="|*{lastName}　*{firstName}|"></td>
+					<td th:text="*{mailAddress}"></td>
+					<td th:text="*{phoneNumber}"></td>
+					<td th:text="*{zipCode}"></td>
+					<td th:text="*{getAddressText()}"></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 	<div th:unless="${addressList!=null and !addressList.empty}">
 		<div class="alert alert-danger" role="alert">
