@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,44 +16,44 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jp.ac.ohara.AddressBook.model.AddressBook;
 import jp.ac.ohara.AddressBook.service.AddressBookService;
 
-
-
 @Controller
-@RequestMapping("/add")
-public class AddController {
+@RequestMapping("/edit")
+public class EditController {
 	@Autowired
-	private AddressBookService addressBookService; 
+	private AddressBookService addressBookService;
 
-	@GetMapping("/")
-	public ModelAndView index(AddressBook addressBook , ModelAndView model) {
+	@GetMapping("/{id}")
+	public ModelAndView index(@PathVariable @NonNull Long id, ModelAndView model) {
+		// データ取得
+		AddressBook addressBook = this.addressBookService.get(id);
+
 		model.addObject("addressBook", addressBook);
+		
+		model.addObject("method", "編集");
+		model.addObject("action", "/edit/confirm/" + id);
 
-		// Viewの設定
-		model.addObject("method", "追加");
-		model.addObject("action", "/add/confirm");
-
-		model.setViewName("views/form");
+		model.setViewName("/views/form");
 		return model;
 	}
 
-	@PostMapping("/confirm")
-	public ModelAndView confirm(@Validated @ModelAttribute AddressBook addressBook, BindingResult result, ModelAndView model) {
+	@PostMapping("/confirm/{id}")
+	public ModelAndView confirm(@Validated @ModelAttribute AddressBook addressBook, BindingResult result, @PathVariable @NonNull Long id, ModelAndView model) {
 		if (result.hasErrors()) {
 			model.addObject("validationError", "不正な値が入力されました。");
-			return this.index(addressBook, model);
+			return this.index(id, model);
 		}
 		model.addObject("addressBook", addressBook);
 
 		// Viewの設定
-		model.addObject("method", "追加");
-		model.addObject("action", "/add/complate");
+		model.addObject("method", "編集");
+		model.addObject("action", "/edit/complate/" + id);
 
 		model.setViewName("views/confirm");
 		return model;
 	}
 
-	@PostMapping("/complate")
-	public String complate(@ModelAttribute @NonNull AddressBook addressBook, RedirectAttributes redirectAttributes) {
+	@PostMapping("/complate/{id}")
+	public String complate(@ModelAttribute @NonNull AddressBook addressBook, RedirectAttributes redirectAttributes, @PathVariable @NonNull Long id) {
 		try {
 			this.addressBookService.save(addressBook);
 			redirectAttributes.addFlashAttribute("exception", "");
@@ -60,15 +61,14 @@ public class AddController {
 		} catch(Exception e) {
 			redirectAttributes.addFlashAttribute("exception", e.getMessage());
 		}
-		return "redirect:/add/complate";
+		return "redirect:/edit/complate";
 	}
 
 	@GetMapping("/complate")
 	public ModelAndView cmplateRedirect(@ModelAttribute("exception") String exception, ModelAndView model) {
-		model.addObject("method", "追加");
+		model.addObject("method", "編集");
 		model.addObject("exception", exception);
 		model.setViewName("views/complate");
 		return model;
 	}
-	
 }

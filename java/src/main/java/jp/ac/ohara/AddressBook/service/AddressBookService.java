@@ -3,6 +3,7 @@ package jp.ac.ohara.AddressBook.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -26,10 +27,19 @@ public class AddressBookService {
 	}
 
 	/**
+	 * 詳細データの取得
+	 * @return  AddressBook
+	 */
+	public AddressBook get(@NonNull Long index) {
+		AddressBook addressBook = this.repository.findById(index).orElse(new AddressBook());
+		return addressBook;
+	}
+
+	/**
 	 * アドレス帳一覧の取得
 	 * @param AddressBook addressBook
 	 */
-	public void save(AddressBook addressBook) {
+	public void save(@NonNull AddressBook addressBook) {
 		this.repository.save(addressBook);
 	}
 }

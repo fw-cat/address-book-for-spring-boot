@@ -9,7 +9,7 @@
 	<h3 th:text="|アドレス${method}画面|"></h3>
 
 	<article>
-		<form class="form py-4 needs-validation" method="post" th:action="@{/add/complate}" th:object="${addressBook}">
+		<form class="form py-4 needs-validation" method="post" th:action="${action}" th:object="${addressBook}">
 			<div class="row align-self-center align-items-center">
 				<label for="lastName" class="col-4 col-form-label text-end">名前（姓）</label>
 				<div class="col-4">
