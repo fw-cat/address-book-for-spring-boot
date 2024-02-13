@@ -1,4 +1,4 @@
-DROP TABLE `address_books`;
+DROP TABLE IF EXISTS `address_books`;
 CREATE TABLE IF NOT EXISTS `address_books` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
 
@@ -14,7 +14,9 @@ CREATE TABLE IF NOT EXISTS `address_books` (
   `address` varchar(128) NOT NULL COMMENT '番地',
   `building` varchar(512) NULL COMMENT 'ビル',
 
+  `deleted_at` datetime DEFAULT NULL COMMENT '削除日時',
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+
   PRIMARY KEY (`id`)
-) CHARACTER SET 'utf8mb4_general_ci';
+) CHARACTER SET utf8mb4 COLLATE 'utf8mb4_general_ci';

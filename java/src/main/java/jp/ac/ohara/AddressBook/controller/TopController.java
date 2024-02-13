@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import jp.ac.ohara.AddressBook.service.AddressBookService;
 
 @Controller
-public class MenuController {
+public class TopController {
 	@Autowired
 	private AddressBookService addressBookService; 
 

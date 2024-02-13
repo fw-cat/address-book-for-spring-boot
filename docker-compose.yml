@@ -23,3 +23,15 @@ services:
     restart: always
     ports:
       - 33268:8080
+
+  phpmyadmin:
+    image: phpmyadmin
+    depends_on:
+      - mysql
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=mysql
+      - PMA_USER=javaer
+      - PMA_PASSWORD=sercret
+    ports:
+      - 33269:80
