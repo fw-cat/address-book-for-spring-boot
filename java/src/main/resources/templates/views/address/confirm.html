@@ -11,6 +11,14 @@
 	<article>
 		<form class="form py-4 needs-validation" method="post" th:action="${action}" th:object="${addressBook}">
 			<div class="row align-self-center align-items-center">
+				<label for="lastName" class="col-4 col-form-label text-end">グループ名</label>
+				<div class="col-4">
+					<strong th:text="*{group.groupName}">グループ名</strong>
+					<input type="hidden" th:field="*{group}">
+				</div>
+			</div>
+
+			<div class="row align-self-center align-items-center">
 				<label for="lastName" class="col-4 col-form-label text-end">名前（姓）</label>
 				<div class="col-4">
 					<strong th:text="*{lastName}">名前（姓）</strong>

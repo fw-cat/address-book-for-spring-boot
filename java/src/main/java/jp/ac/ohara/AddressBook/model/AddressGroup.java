@@ -1,5 +1,7 @@
 package jp.ac.ohara.AddressBook.model;
 
+import java.util.List;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -7,7 +9,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jp.ac.ohara.AddressBook.define.ErrorMessage;
 import lombok.Data;
 
 @Data
@@ -21,4 +26,9 @@ public class AddressGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+	@NotBlank(message = ErrorMessage.NOT_NULL)
+    private String groupName;
+
+	@OneToMany(mappedBy="group")
+    private List<AddressBook> addressBooks;
 }

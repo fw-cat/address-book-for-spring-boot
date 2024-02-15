@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::title},~{::body/content()})}">
+
+<head>
+	<title>連絡帳管理サイト</title>
+</head>
+
+<body>
+	<h3>グループ一覧</h3>
+
+	<div th:if="${groupList!=null and !groupList.empty}">
+		<table class="table table-striped">
+			<thead>
+				<th>#</th>
+				<th>グループ名</th>
+				<th>登録数</th>
+				<th role="action"></th>
+			</thead>
+			<tbody>
+				<tr class="align-middle" th:each="group, stat : ${groupList}" th:object="${group}">
+					<td th:text="${stat.count}"></td>
+					<td th:text="*{groupName}"></td>
+					<td th:text="*{getAddressBooks().size()}"></td>
+					<td>
+						<a class="btn btn-warning" th:href="@{/groups/edit/{id}(id=*{id})}">
+							編集・削除
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<script th:src="@{/js/index.js}"></script>
+	</div>
+	<div th:unless="${groupList != null and !groupList.empty}">
+		<div class="alert alert-danger" role="alert">
+			グループがありません。
+		</div>
+	</div>
+</body>
+
+</html>

@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -31,7 +33,7 @@ public class AddressBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-	@NotBlank(message = ErrorMessage.NOT_NULL)
+    @NotBlank(message = ErrorMessage.NOT_NULL)
     private String lastName;
 
 	@NotBlank(message = ErrorMessage.NOT_NULL)
@@ -58,7 +60,11 @@ public class AddressBook {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @PrePersist
+	@ManyToOne
+	@JoinColumn(name = "group_id")
+	private AddressGroup group;
+
+	@PrePersist
     protected void onCreate() {
         createdAt = new Date();
     }

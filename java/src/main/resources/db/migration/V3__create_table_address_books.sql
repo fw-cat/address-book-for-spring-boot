@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS `address_books`;
 CREATE TABLE IF NOT EXISTS `address_books` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
  
+  `group_id` int(11) NOT NULL ,
+ 
   `last_name` varchar(128) NOT NULL COMMENT '名前（姓）',
   `first_name` varchar(128) NOT NULL COMMENT '名前（名）',
 
@@ -18,5 +20,6 @@ CREATE TABLE IF NOT EXISTS `address_books` (
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
 
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (group_id) REFERENCES address_groups(id) ON DELETE CASCADE
 ) CHARACTER SET utf8mb4 COLLATE 'utf8mb4_general_ci';
