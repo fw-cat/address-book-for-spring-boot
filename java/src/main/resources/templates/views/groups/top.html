@@ -6,7 +6,12 @@
 </head>
 
 <body>
-	<h3>グループ一覧</h3>
+	<h3>
+		グループ一覧
+		<small>
+			<a class="btn btn-primary" th:href="@{/groups/add/}">グループの追加</a> 
+		</small>
+	</h3>
 
 	<div th:if="${groupList!=null and !groupList.empty}">
 		<table class="table table-striped">
