@@ -130,6 +130,38 @@ public class AddressController {
 		return model;
 	}
 
+	@GetMapping("/delete/{id}")
+	public ModelAndView deleteConfirm(@PathVariable @NonNull Long id, ModelAndView model) {
+		AddressBook addressBook= this.addressBookService.get(id);
+		model.addObject("addressBook", addressBook);
+
+		// Viewの設定
+		model.addObject("method", "削除確認");
+		model.addObject("action", "/address/delete/" + id);
+		model.addObject("button", "削除");
+		model.setViewName(this.viewName("delete_confirm"));
+
+		return model;
+	}
+	@PostMapping("/delete/{id}")
+	public String delete(RedirectAttributes redirectAttributes, @PathVariable @NonNull Long id, ModelAndView model) {
+		try {
+			this.addressBookService.delete(id);
+			redirectAttributes.addFlashAttribute("exception", "");
+
+		} catch(Exception e) {
+			redirectAttributes.addFlashAttribute("exception", e.getMessage());
+		}
+		return "redirect:/address/delete/complate";
+	}
+	@GetMapping("/delete/complate")
+	public ModelAndView deleteComp(@ModelAttribute("exception") String exception, ModelAndView model) {
+		model.addObject("method", "削除");
+		model.addObject("exception", exception);
+		model.setViewName(this.viewName("complate"));
+		return model;
+	}
+
 	/**
 	 * Model名を返す
 	 * @param name
