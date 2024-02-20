@@ -15,10 +15,8 @@
 				<div class="col-4">
 					<select class="form-select" id="group" name="group">
 						<option th:value="0" selected>選択してください</option>
-						<option th:each="item : ${groups}" th:value="${item.id}" th:text="${item.groupName}"></option>
+						<option th:each="item : ${groups}" th:value="${item.id}" th:selected="${item.id == addressBook.group?.id}" th:text="${item.groupName}">グループ名</option>
 					</select>
-					<div th:if="${#fields.hasErrors('group')}" th:errors="*{group}" class="invalid-feedback">
-						errors!</div>
 				</div>
 			</div>
 
@@ -102,9 +100,19 @@
 			</div>
 
 			<div class="row mt-3">
-				<div class="offset-4 col-4">
-					<button class="btn btn-primary">確認</button>
-				</div>
+				<th:block th:if="${method} == '編集'">
+					<div class="col-4 text-end">
+						<a th:href="@{/address/delete/{id}(id=*{id})}" class="btn btn-danger">削除</a>
+					</div>
+					<div class="col-4">
+						<button type="submit" class="btn btn-primary" th:text="${button}">確認</button>
+					</div>
+				</th:block>
+				<th:block th:if="${method} != '編集'">
+					<div class="offset-4 col-4">
+						<button type="submit" class="btn btn-primary" th:text="${button}">確認</button>
+					</div>
+				</th:block>
 			</div>
 		</form>
 	</article>
