@@ -6,12 +6,12 @@
 </head>
 
 <body>
-	<h3>グループ登録完了画面</h3>
+	<h3 th:text="|グループ${method}完了画面|">グループ登録完了画面</h3>
 
 	<article>
 		<div th:if="${#strings.isEmpty(exception)}">
 			<div class="alert alert-success" role="alert">
-				登録完了しました。
+				<span th:text="${method}">処理</span>が完了しました。
 			</div>
 		</div>
 		<div th:unless="${#strings.isEmpty(exception)}">

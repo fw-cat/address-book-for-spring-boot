@@ -80,6 +80,7 @@ public class GroupsController {
 	}
 	@GetMapping("/complate")
 	public ModelAndView cmplateRedirect(@ModelAttribute("exception") String exception, ModelAndView model) {
+		model.addObject("method", "登録");
 		model.addObject("exception", exception);
 		model.setViewName(this.viewName("complate"));
 		return model;
@@ -92,13 +93,47 @@ public class GroupsController {
 
 		// Viewの設定
 		model.addObject("method", "編集");
-		model.addObject("action", "confirm");
+		model.addObject("action", "edit/confirm/" + groupId);
 		model.addObject("button", "確認");
 		model.setViewName(this.viewName("form"));
 
+		return this._edit(groupId, addressGroup, model);
+	}
+	@PostMapping("edit/confirm/{groupId}")
+	public ModelAndView editConfirm(@PathVariable @NonNull Long groupId, @Validated @ModelAttribute AddressGroup addressGroup, BindingResult result, ModelAndView model) {
+		if (result.hasErrors()) {
+			model.addObject("validationError", "不正な値が入力されました。");
+			return this._edit(groupId, addressGroup, model);
+		}
+		model.addObject("addressGroup", addressGroup);
+
+		// Viewの設定
+		model.addObject("method", "編集");
+		model.addObject("action", "edit/complate/" + groupId);
+		model.addObject("button", "更新");
+
+		model.setViewName(this.viewName("confirm"));
 		return model;
 	}
+	@PostMapping("/edit/complate/{groupId}")
+	public String editComplate(@PathVariable @NonNull Long groupId, @ModelAttribute @NonNull AddressGroup addressGroup, RedirectAttributes redirectAttributes) {
+		try {
+			addressGroup.setId(groupId);
+			this.groupService.save(addressGroup);
+			redirectAttributes.addFlashAttribute("exception", "");
 
+		} catch(Exception e) {
+			redirectAttributes.addFlashAttribute("exception", e.getMessage());
+		}
+		return "redirect:/groups/edit/complate";
+	}
+	@GetMapping("/edit/complate")
+	public ModelAndView editComplateRedirect(@ModelAttribute("exception") String exception, ModelAndView model) {
+		model.addObject("method", "更新");
+		model.addObject("exception", exception);
+		model.setViewName(this.viewName("complate"));
+		return model;
+	}
 	@GetMapping("/delete/{groupId}")
 	public ModelAndView deleteConfirm(@PathVariable @NonNull Long groupId, ModelAndView model) {
 		AddressGroup addressGroup = this.groupService.get(groupId);
@@ -139,4 +174,15 @@ public class GroupsController {
 	private String viewName(String name) {
 		return "views/groups/" + name;
 	}
+
+	/**
+	 * 編集画面を返す
+	 * @param addressGroup
+	 * @param model
+	 * @return
+	 */
+	private ModelAndView _edit(Long groupId, AddressGroup addressGroup, ModelAndView model) {
+		return model;
+	}
+
 }
