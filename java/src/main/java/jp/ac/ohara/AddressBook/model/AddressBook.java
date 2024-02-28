@@ -1,5 +1,8 @@
 package jp.ac.ohara.AddressBook.model;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 
 import org.hibernate.annotations.SQLDelete;
@@ -18,6 +21,7 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import jp.ac.ohara.AddressBook.define.ErrorMessage;
@@ -48,6 +52,9 @@ public class AddressBook {
 	@Pattern(regexp = "0\\d{1,4}-?\\d{1,4}-?\\d{4}", message = ErrorMessage.PATTERN_PHONE)
     private String phoneNumber;
 
+	@PastOrPresent(message = ErrorMessage.BIRTH_DATE)
+	private Date birthDt;
+	
 	@Pattern(regexp = "\\d{3}-?\\d{4}", message = ErrorMessage.PATTERN_ZIP_CODE)
     private String zipCode;
     private String prefecture;
@@ -90,5 +97,22 @@ public class AddressBook {
     		addressText  += "　" + this.building;
     	}
     	return addressText;
+    }
+
+    /**
+     * 誕生日から年齢を算出
+     * @return 年齢
+     */
+    public int getAge() {
+    	if (this.birthDt.equals(null)) {
+    		// 誕生日がない場合は0を返す
+    		return 0;
+    	}
+    	// 現在の日付をLocalDate形式で取得
+        LocalDate now = LocalDate.now();
+        // 誕生日をLocalDate形式に変換
+        LocalDate birthday = this.birthDt.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        // 年齢を計算
+        return Period.between(birthday, now).getYears();
     }
 }
