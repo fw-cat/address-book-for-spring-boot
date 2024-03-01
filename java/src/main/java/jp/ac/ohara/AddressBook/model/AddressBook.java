@@ -8,6 +8,7 @@ import java.util.Date;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -53,7 +54,8 @@ public class AddressBook {
     private String phoneNumber;
 
 	@PastOrPresent(message = ErrorMessage.BIRTH_DATE)
-	private Date birthDt;
+	@Column(name = "birth_dt")
+	private Date birthDay;
 	
 	@Pattern(regexp = "\\d{3}-?\\d{4}", message = ErrorMessage.PATTERN_ZIP_CODE)
     private String zipCode;
@@ -62,23 +64,24 @@ public class AddressBook {
     private String address;
     private String building;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
-
 	@ManyToOne
 	@JoinColumn(name = "group_id")
 	private AddressGroup group;
 
+	@Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
 	@PrePersist
     protected void onCreate() {
-        createdAt = new Date();
+    	this.updatedAt = new Date();
+        this.createdAt = new Date();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = new Date();
+    	this.updatedAt = new Date();
     }
 
     /**
@@ -101,18 +104,36 @@ public class AddressBook {
 
     /**
      * 誕生日から年齢を算出
-     * @return 年齢
+     * @return int 年齢
      */
     public int getAge() {
-    	if (this.birthDt.equals(null)) {
+    	if (this.birthDay.equals(null)) {
     		// 誕生日がない場合は0を返す
     		return 0;
     	}
     	// 現在の日付をLocalDate形式で取得
         LocalDate now = LocalDate.now();
         // 誕生日をLocalDate形式に変換
-        LocalDate birthday = this.birthDt.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate birthday = this.birthDay.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         // 年齢を計算
         return Period.between(birthday, now).getYears();
     }
+    /**
+     * 誕生日から年齢を算出
+     * @return String 年齢（歳）
+     */
+    public String getAgeText() {
+    	if (this.birthDay.equals(null)) {
+    		// 誕生日がない場合は0を返す
+    		return "不明";
+    	}
+    	// 現在の日付をLocalDate形式で取得
+        LocalDate now = LocalDate.now();
+        // 誕生日をLocalDate形式に変換
+        LocalDate birthday = this.birthDay.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        // 年齢を計算
+        return Period.between(birthday, now).getYears() + "歳";
+    }
+    
+    
 }

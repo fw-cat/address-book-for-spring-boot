@@ -2,7 +2,6 @@ package jp.ac.ohara.AddressBook.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +13,22 @@ import jp.ac.ohara.AddressBook.repository.AddressBookRepository;
 @Transactional
 public class AddressBookService {
 
-	@Autowired
-	private AddressBookRepository repository;
+	private final AddressBookRepository repository;
 
+	/**
+	 * コンストラクタ
+	 * @param AddressBookRepository _repository
+	 */
+	public AddressBookService(AddressBookRepository _repository) {
+		this.repository = _repository;
+	}
+	
 	/**
 	 * アドレス帳一覧の取得
 	 * @return List<AddressBook>
 	 */
 	public List<AddressBook> getAddressList() {
-	    List<AddressBook> entityList = this.repository.findAll();
+	    List<AddressBook> entityList = this.repository.findAllByOrderByFirstNameDesc();
 	    return entityList;
 	}
 
@@ -37,11 +43,20 @@ public class AddressBookService {
 	}
 
 	/**
-	 * アドレス帳一覧の取得
-	 * @param AddressBook addressBook
+	 * アドレス帳データの保存
+	 * @param @NonNull AddressBook addressBook
 	 */
 	public void save(@NonNull AddressBook addressBook) {
-		this.repository.save(addressBook);
+		this.repository.saveAndFlush(addressBook);
+	}
+	/**
+	 * アドレス帳データの更新
+	 * @param @NonNull AddressBook addressBook
+	 * @param Long id
+	 */
+	public void save(@NonNull AddressBook addressBook, Long id) {
+		addressBook.setId(id);
+		this.save(addressBook);
 	}
 
 	/**

@@ -2,6 +2,7 @@ package jp.ac.ohara.AddressBook.controller;
 
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,29 +32,35 @@ public class AddressController {
 	@GetMapping("/add/")
 	public ModelAndView add(AddressBook addressBook , ModelAndView model) {
 		model.addObject("addressBook", addressBook);
-		model.addObject("groups", this.groupService.getGroupList());
-
-		// Viewの設定
-		model.addObject("method", "追加");
-		model.addObject("action", "/address/confirm");
-		model.addObject("button", "確認");
+//		model.addObject("groups", this.groupService.getGroupList());
+//
+//		// Viewの設定
+//		model.addObject("method", "追加");
+//		model.addObject("action", "/address/confirm");
+//		model.addObject("button", "確認");
 
 		model.setViewName(this.viewName("form"));
 		return model;
 	}
+	public String add(AddressBook addressBook , Model model) {
+		model.addAttribute("addressBook", addressBook);
+		return this.viewName("form");
+	}
 
 	@PostMapping("/confirm")
-	public ModelAndView confirm(@Validated @ModelAttribute AddressBook addressBook, BindingResult result, ModelAndView model) {
+	public ModelAndView confirm(@Validated @ModelAttribute AddressBook addressBook,
+								BindingResult result,
+								ModelAndView model) {
 		if (result.hasErrors()) {
 			model.addObject("validationError", "不正な値が入力されました。");
 			return this.add(addressBook, model);
 		}
 		model.addObject("addressBook", addressBook);
 
-		// Viewの設定
-		model.addObject("method", "追加");
-		model.addObject("action", "/address/complate");
-		model.addObject("button", "確認");
+//		// Viewの設定
+//		model.addObject("method", "追加");
+//		model.addObject("action", "/address/complate");
+//		model.addObject("button", "確認");
 
 		model.setViewName(this.viewName("confirm"));
 		return model;
@@ -111,10 +118,9 @@ public class AddressController {
 		return model;
 	}
 	@PostMapping("/edit/complate/{id}")
-	public String editComplate(@PathVariable @NonNull Long id, @Validated @ModelAttribute AddressBook addressBook, RedirectAttributes redirectAttributes) {
+	public String editComplate(@PathVariable @NonNull Long id, @Validated @ModelAttribute @NonNull AddressBook addressBook, RedirectAttributes redirectAttributes) {
 		try {
-			addressBook.setId(id);
-			this.addressBookService.save(addressBook);
+			this.addressBookService.save(addressBook, id);
 			redirectAttributes.addFlashAttribute("exception", "");
 
 		} catch(Exception e) {
